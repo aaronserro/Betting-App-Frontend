@@ -1,50 +1,68 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+// src/App.jsx
+import { Routes, Route } from 'react-router-dom'
+import CreateUser from './Users/createUser'
+import UpdateUser from './Users/UpdateUser'
+//import DeleteUser from './users/DeleteUser'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-  <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center text-center p-6">
-    <header className="mb-10">
-      <h1 className="text-5xl font-extrabold text-blue-600 mb-4">
-        Welcome to My App
-      </h1>
-      <p className="text-lg text-gray-700 max-w-xl mx-auto">
-        A beautiful, responsive landing page built with React and Tailwind CSS.
-      </p>
-    </header>
+    <div className="w-screen min-h-screen overflow-x-hidden">
+      <Routes>
+<Route path="/" element={
+  <div className="w-screen h-screen flex flex-col items-center justify-center bg-[radial-gradient(circle_at_center,_#1e40af_0%,_#7c3aed_100%)] text-white px-6 py-10">
 
-    <div className="flex space-x-4 mb-8">
-      <a
-        href="https://vitejs.dev"
-        target="_blank"
-        className="hover:scale-105 transition-transform"
-      >
-        <img src={viteLogo} alt="Vite" className="w-20 h-20" />
-      </a>
-      <a
-        href="https://reactjs.org"
-        target="_blank"
-        className="hover:scale-105 transition-transform"
-      >
-        <img src={reactLogo} alt="React" className="w-20 h-20" />
-      </a>
+    <div className="text-center mb-10 space-y-4">
+      <h1 className="text-6xl font-extrabold tracking-tight">
+        <span className="inline-block mr-3">🏆</span>
+        Fantasy Betting Arena
+      </h1>
+      <p className="text-xl text-gray-200 max-w-xl">
+        Welcome to the ultimate arena where stats meet strategy. Create your team, place your bets, and compete against your friends with BetCoins.
+      </p>
     </div>
 
-    <button
-      onClick={() => setCount(count + 1)}
-      className="bg-blue-600 text-white px-6 py-2 rounded shadow hover:bg-blue-700 transition"
-    >
-      Count is {count}
-    </button>
+    <div className="backdrop-blur-xl bg-white/10 border border-white/20 text-white rounded-xl shadow-2xl p-8 w-full max-w-sm space-y-6">
+      <h2 className="text-2xl font-semibold text-center">🔐 Sign In</h2>
 
-    <footer className="mt-10 text-sm text-gray-500">
-      Edit <code>src/App.jsx</code> and save to test HMR.
+      <div className="space-y-4">
+        <input
+          type="text"
+          placeholder="Username"
+          className="w-full px-4 py-2 rounded-lg bg-white/20 text-white placeholder-white/70 border border-white/30 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          className="w-full px-4 py-2 rounded-lg bg-white/20 text-white placeholder-white/70 border border-white/30 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+        />
+        <a
+          href="/users/update"
+          className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-lg font-semibold transition text-center block"
+        >
+          Sign In
+        </a>
+        <p className="text-sm text-center text-gray-300 mt-4">
+          Don’t have an account?{' '}
+          <a href="/users/create" className="text-indigo-400 underline hover:text-indigo-300">
+            Sign up
+          </a>
+        </p>
+      </div>
+    </div>
+
+    <footer className="mt-12 text-sm text-gray-300">
+      Built with React, Tailwind CSS, and endless imagination ⚡
     </footer>
   </div>
+} />
+
+
+
+        <Route path="/users/create" element={<CreateUser />} />
+        <Route path="/users/update" element={<UpdateUser />} />
+      </Routes>
+    </div>
   )
 }
 
