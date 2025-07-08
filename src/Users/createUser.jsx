@@ -1,5 +1,5 @@
 import { useState } from 'react'
-
+import api from '/src/api/axios'
 function CreateUser() {
   const [submitted, setSubmitted] = useState(false)
   const [formData, setFormData] = useState({
@@ -16,11 +16,18 @@ function CreateUser() {
     setFormData({ ...formData, [name]: value })
   }
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    console.log('User Data:', formData)
+const handleSubmit = async (e) => {
+  e.preventDefault()
+
+  try {
+    const response = await api.post('/users/create', formData)
+    console.log('Success:', response.data)
     setSubmitted(true)
+  } catch (error) {
+    console.error('Error creating user:', error)
+    alert('Failed to create user. Try again.')
   }
+}
 
   return (
     <div className="w-screen min-h-screen flex flex-col items-center justify-center bg-[radial-gradient(circle_at_center,_#1e40af_0%,_#7c3aed_100%)] px-4 py-10 text-white">
