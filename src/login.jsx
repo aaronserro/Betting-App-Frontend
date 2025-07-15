@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import api from './api/axios'
 import Coin from './Coin'
@@ -20,12 +20,27 @@ const games = [
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const navigate = useNavigate()
-  const coins = Array.from({ length: 12 }).map((_, i) => ({
-    left: `${Math.random() * 100}%`,
-    delay: `${Math.random() * 4}s`,
-    duration: `${3 + Math.random() * 2}s`,
-    key: i,
-  }));
+  const fallingCards = useMemo(() =>
+    Array.from({ length: 15 }).map((_, i) => {
+      const game = games[Math.floor(Math.random() * games.length)];
+      const left = Math.random() * 90;
+      const delay = Math.random() * 4;
+      const duration = 3 + Math.random() * 2;
+      const scale = 0.85 + Math.random() * 0.3;
+      const rotate = Math.random() * 24 - 12;
+      const opacity = 0.8 + Math.random() * 0.2;
+      return {
+        key: i,
+        game,
+        left,
+        delay,
+        duration,
+        scale,
+        rotate,
+        opacity,
+      };
+    }), []
+  );
 
   const handleLogin = async (e) => {
     e.preventDefault()
@@ -41,50 +56,41 @@ const games = [
   return (
     <div className="relative w-screen h-screen flex flex-col items-center justify-center bg-[radial-gradient(circle_at_center,_#fff_0%,_#222_100%)] text-white px-6 py-10 overflow-hidden">
   {/* Falling coins overlay */}
-  <div className="absolute inset-0 overflow-hidden z-0">
-  {Array.from({ length: 18 }).map((_, i) => {
-    const game = games[Math.floor(Math.random() * games.length)];
-  const left = Math.random() * 90;
-  const delay = Math.random() * 4;
-  const duration = 3 + Math.random() * 2;
-  const scale = 0.85 + Math.random() * 0.3; // scale between 0.85 and 1.15
-  const rotate = Math.random() * 24 - 12; // rotate between -12deg and 12deg
-  const opacity = 0.8 + Math.random() * 0.2; // opacity between 0.8 and 1
-
-  return (
+<div className="absolute inset-0 overflow-hidden z-10 pointer-events-none">
+  {fallingCards.map(card => (
     <div
-      key={i}
-      className={`falling-card flex flex-col items-center justify-center w-32 h-40 rounded-3xl shadow-xl bg-gradient-to-br ${game.color}`}
+      key={card.key}
+      className={`falling-card flex flex-col items-center justify-center w-32 h-40 rounded-3xl shadow-xl bg-gradient-to-br ${card.game.color}`}
       style={{
-        left: `${left}%`,
-        animationDelay: `${delay}s`,
-        animationDuration: `${duration}s`,
-        transform: `scale(${scale}) rotate(${rotate}deg)`,
-        opacity,
+        left: `${card.left}%`,
+        animationDelay: `${card.delay}s`,
+        animationDuration: `${card.duration}s`,
+        transform: `scale(${card.scale}) rotate(${card.rotate}deg)`,
+        opacity: card.opacity,
       }}
     >
-      <span className="text-3xl mb-2">{game.icon}</span>
-      <span className="text-base font-bold text-white drop-shadow">{game.name}</span>
+      <span className="text-3xl mb-2">{card.game.icon}</span>
+      <span className="text-base font-bold text-white drop-shadow">{card.game.name}</span>
     </div>
-  );
-})}
+  ))}
 </div>
 
-
-    <div className="relative z-20 flex flex-col items-center justify-center w-full h-full">
-
-        <h1 className="text-6xl font-extrabold tracking-tight">
-          <span className="inline-block mr-3">🏆</span>
-          Fantasy Betting Arena
-        </h1>
-        <p className="text-xl text-gray-200 max-w-xl">
-          Welcome to the ultimate arena where stats meet strategy. Create your team, place your bets, and compete against your friends with BetCoins.
-        </p>
-      </div>
-
+<div className="relative flex flex-col items-center justify-center w-full h-full">
+  <h1 className="text-5xl sm:text-6xl font-extrabold tracking-tight text-center mb-4">
+    <span className="inline-block mr-3 drop-shadow-lg animate-bounce">🏆</span>
+    <span className="bg-gradient-to-r from-yellow-400 via-orange-300 to-yellow-600 bg-clip-text text-transparent drop-shadow-lg">
+      Fantasy <span className="text-black drop-shadow-lg">Betting</span> Arena
+      <span className="inline-block mr-3 drop-shadow-lg animate-bounce">🏆</span>
+    </span>
+  </h1>
+  <p className="text-lg sm:text-xl bg-black/60 px-6 py-3 rounded-xl text-gray-100 shadow-lg max-w-xl text-center mt-2">
+    Welcome to the ultimate arena where <span className="font-semibold text-yellow-300">stats</span> meet <span className="font-semibold text-yellow-300">strategy</span>.<br />
+    Create your team, place your bets, and compete against your friends with <span className="font-bold text-yellow-300">BetCoins</span>.
+  </p>
+</div>
 <form
   onSubmit={handleLogin}
-  className="relative bg-black/70 backdrop-blur-lg border border-white/20 shadow-xl rounded-2xl px-6 py-8 w-full max-w-sm flex flex-col items-center gap-6"
+  className="relative z-20 bg-black/70 backdrop-blur-lg border border-white/20 shadow-xl rounded-2xl px-6 py-8 w-full max-w-sm flex flex-col items-center gap-6"
 >
   <div className="flex flex-col items-center gap-1">
     <span className="text-4xl drop-shadow-lg">🎲</span>

@@ -6,6 +6,49 @@
   padding: 2rem;
   text-align: center;
 }*/
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .bg-stars {
+    background-image:
+      radial-gradient(white 3px, transparent 3px),
+      radial-gradient(white 4px, transparent 4px),
+      radial-gradient(#FFD700 5px, transparent 5px),
+      radial-gradient(white 2px, transparent 2px);
+    background-size: 60px 60px, 120px 120px, 180px 180px, 90px 90px;
+    background-position: 0 0, 30px 40px, 100px 80px, 50px 70px;
+    opacity: 0.27;
+    pointer-events: none;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 0;
+  }
+  .animate-starfield {
+    animation: moveStars 34s linear infinite;
+  }
+  @keyframes moveStars {
+    0% { background-position: 0 0, 30px 40px, 100px 80px, 50px 70px; }
+    100% { background-position: 200px 260px, 160px 240px, 300px 240px, 150px 190px; }
+  }
+
+  .animate-pulse-slow {
+    animation: pulseGlow 8s ease-in-out infinite;
+  }
+
+  @keyframes pulseGlow {
+    0%, 100% {
+      opacity: 0.1;
+    }
+    50% {
+      opacity: 0.3;
+    }
+  }
+}
 
 .logo {
   height: 6em;
