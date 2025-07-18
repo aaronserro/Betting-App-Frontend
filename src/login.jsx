@@ -5,16 +5,15 @@ import Coin from './Coin'
 function Login() {
 
 const games = [
-  { name: 'TBA', icon: '🎡', color: 'from-yellow-400 to-red-500' },
-  { name: 'TBA', icon: '🃏', color: 'from-green-400 to-blue-500' },
-  { name: 'TBA', icon: '🂡', color: 'from-gray-700 to-black' },
-  { name: 'TBA', icon: '🎰', color: 'from-pink-400 to-purple-500' },
-  { name: 'TBA', icon: '🎲', color: 'from-green-300 to-green-700' },
-  { name: 'TBA', icon: '🀄', color: 'from-red-400 to-yellow-600' },
-  { name: 'TBA', icon: '🏈', color: 'from-blue-400 to-indigo-800' },
-  { name: 'TBA', icon: '🔢', color: 'from-yellow-200 to-yellow-600' },
-  { name: 'TBA', icon: '⚔️', color: 'from-gray-400 to-gray-900' },
-  { name: 'TBA', icon: '⬆️', color: 'from-blue-200 to-blue-700' },
+  { name: 'Roulette', icon: '🎡', color: 'from-yellow-400 to-red-500' },
+  { name: 'Sudoku', icon: '🃏', color: 'from-green-400 to-blue-500' },
+  { name: 'BlackJack', icon: '🂡', color: 'from-gray-700 to-black' },
+  { name: 'Poker', icon: '🎰', color: 'from-pink-400 to-purple-500' },
+  { name: 'WordHunt', icon: '🎲', color: 'from-green-300 to-green-700' },
+  { name: 'BattleShip', icon: '🀄', color: 'from-red-400 to-yellow-600' },
+  { name: '2048', icon: '🏈', color: 'from-blue-400 to-indigo-800' },
+  { name: 'Tic-Tac-Toe', icon: '🔢', color: 'from-yellow-200 to-yellow-600' },
+  { name: 'Chess', icon: '⚔️', color: 'from-gray-400 to-gray-900' },
   // Add more as you wish!
   ];
   const [username, setUsername] = useState('')
