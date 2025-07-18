@@ -1,6 +1,6 @@
 import { Routes, Route } from 'react-router-dom'
 import CreateUser from './Users/createUser'
-import UpdateUser from './Users/UpdateUser'
+import UpdateUser from './Users/updateUser'
 import Dashboard from './Users/dashboard'
 import ProtectedRoute from './components/ProtectedRoute'
 import Login from './login' // ✅ import your new login component
