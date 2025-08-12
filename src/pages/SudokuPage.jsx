@@ -1,2 +1,2 @@
-import SudokuGame from "/Users/aaronserro/Desktop/Projects/front-end/Betting-App-Frontend/src/games/Sudoku/Game";
+import SudokuGame from "../games/Sudoku/Game.jsx";
 export default function SudokuPage() { return <SudokuGame />; }
