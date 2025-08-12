@@ -3,7 +3,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import SudokuCell from "./components/SudokuCell";
-import sudokuApi from "/Users/aaronserro/Desktop/Projects/front-end/Betting-App-Frontend/src/games/Sudoku/api/ sudokuApi.js";
+import sudokuApi from "./api/sudokuApi.js";
 import { cloneGrid, isCompleteLocal, findConflicts, formatTime } from "./utils/sudokuUtils";
 
 const GOLD = "#FFD700";
