@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import api from './api/axios'
 import Coin from './Coin'
-import { setAuthToken } from '/Users/aaronserro/Desktop/Projects/front-end/Betting-App-Frontend/src/api/httpClient.js';
+import { setAuthToken } from './api/httpClient.js';
 function Login() {
 
 const games = [
