@@ -1,0 +1,66 @@
+/* src/games/Sudoku/components/SudokuCell.css */
+
+.sudoku-cell {
+  position: relative;
+  width: 48px;              /* adjust to your grid size */
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #0f172a;      /* slate-900-ish */
+  border: 1px solid #1f2937;/* slate-800-ish */
+  border-radius: 4px;
+  user-select: none;
+  cursor: pointer;
+  transition: background 120ms ease, box-shadow 120ms ease;
+}
+
+.sudoku-cell.is-fixed {
+  background: #111827;      /* a bit darker */
+}
+
+.sudoku-cell.is-focused {
+  outline: 2px solid #6366f1; /* indigo-500-ish */
+  outline-offset: -2px;
+}
+
+.sudoku-cell.is-conflict {
+  box-shadow: inset 0 0 0 2px rgba(244, 63, 94, 0.7); /* rose-500-ish */
+}
+
+.cell-value {
+  font-size: 1.25rem;       /* ~20px */
+  font-weight: 600;
+  color: #e5e7eb;           /* slate-200-ish */
+}
+
+.cell-value-fixed {
+  font-weight: 800;
+  color: #f3f4f6;           /* slate-100-ish */
+}
+
+/* Notes (pencil marks) */
+.notes-grid {
+  position: absolute;
+  inset: 3px;               /* small padding inside cell */
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 2px;
+  pointer-events: none;     /* so clicks still hit the cell div */
+}
+
+.note-slot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.note {
+  font-size: 10px;          /* small */
+  line-height: 1;
+  color: #94a3b8;           /* slate-400-ish */
+  font-weight: 600;
+  opacity: 0.9;
+}

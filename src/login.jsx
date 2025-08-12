@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import api from './api/axios'
 import Coin from './Coin'
+import { setAuthToken } from '/Users/aaronserro/Desktop/Projects/front-end/Betting-App-Frontend/src/api/httpClient.js';
 function Login() {
 
 const games = [
@@ -46,6 +47,7 @@ const games = [
     try {
       const response = await api.post('/auth/login', { username, password })
       localStorage.setItem('token', response.data.token)
+      setAuthToken(response.data.token);
       navigate('/dashboard')
     } catch (err) {
       alert('Login failed. Please check your credentials.')

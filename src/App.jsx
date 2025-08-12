@@ -3,7 +3,8 @@ import CreateUser from './Users/createUser'
 import UpdateUser from './Users/updateUser'
 import Dashboard from './Users/dashboard'
 import ProtectedRoute from './components/ProtectedRoute'
-import Login from './login' // ✅ import your new login component
+import Login from './login'
+import SudokuPage from './pages/SudokuPage'
 import './App.css'
 
 function App() {
@@ -22,6 +23,14 @@ function App() {
       />
         <Route path="/users/create" element={<CreateUser />} />
         <Route path="/users/update" element={<UpdateUser />} />
+        <Route
+                path="/games/sudoku"
+                element={
+                  <ProtectedRoute>
+                    <SudokuPage />
+                  </ProtectedRoute>
+                }
+/>
       </Routes>
     </div>
   )
