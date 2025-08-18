@@ -32,10 +32,9 @@ export default function SudokuGame() {
   // focus
   const focusedRef = useRef({ r: 0, c: 0 });
 
-  // notes (scratch pad)
+  // notes
   const [notesMode, setNotesMode] = useState(false);
-  const emptyNotes = () =>
-    Array.from({ length: 9 }, () => Array.from({ length: 9 }, () => new Set()));
+  const emptyNotes = () => Array.from({ length: 9 }, () => Array.from({ length: 9 }, () => new Set()));
   const [notes, setNotes] = useState(emptyNotes());
 
   // conflicts
@@ -52,20 +51,14 @@ export default function SudokuGame() {
   useEffect(() => {
     const onKey = (e) => {
       const { r, c } = focusedRef.current;
-
       if (e.key.toLowerCase() === "n") { e.preventDefault(); setNotesMode(v => !v); return; }
-
       if (e.key === "ArrowUp") { e.preventDefault(); focusedRef.current = { r: (r + 8) % 9, c }; setStatus(""); return; }
       if (e.key === "ArrowDown") { e.preventDefault(); focusedRef.current = { r: (r + 1) % 9, c }; setStatus(""); return; }
       if (e.key === "ArrowLeft") { e.preventDefault(); focusedRef.current = { r, c: (c + 8) % 9 }; setStatus(""); return; }
       if (e.key === "ArrowRight") { e.preventDefault(); focusedRef.current = { r, c: (c + 1) % 9 }; setStatus(""); return; }
-
       if (fixed[r][c]) return;
-
       if (/^[1-9]$/.test(e.key)) { e.preventDefault(); handleNumberInput(r, c, parseInt(e.key, 10)); setStatus(""); return; }
-      if (e.key === "Backspace" || e.key === "Delete" || e.key === "0") {
-        e.preventDefault(); handleNumberInput(r, c, 0); setStatus(""); return;
-      }
+      if (e.key === "Backspace" || e.key === "Delete" || e.key === "0") { e.preventDefault(); handleNumberInput(r, c, 0); setStatus(""); return; }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -173,7 +166,6 @@ export default function SudokuGame() {
     const fr = focusedRef.current.r, fc = focusedRef.current.c;
     const isRow = fr === r, isCol = fc === c;
     const inBox = Math.floor(fr / 3) === Math.floor(r / 3) && Math.floor(fc / 3) === Math.floor(c / 3);
-    // softer white hints for row/col/box; focused cell will be gold below
     return isRow || isCol ? "bg-white/10" : inBox ? "bg-white/5" : "";
   };
 
@@ -185,8 +177,9 @@ export default function SudokuGame() {
       <header className="sticky top-0 z-20 backdrop-blur-md bg-black/60 border-b-2" style={{ borderColor: GOLD }}>
         <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
           <button
-            onClick={() => navigate("/dashboard")}
-            className="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/15 border border-white/15 text-sm"
+            onClick={() => navigate("/")}
+            className="px-3 py-1.5 rounded-lg bg-black/50 hover:bg-black/60 border border-white/20 text-sm"
+            style={{ backgroundColor: "#000" }}
           >
             ← Dashboard
           </button>
@@ -195,31 +188,8 @@ export default function SudokuGame() {
             Sudoku
           </h1>
 
-          <div className="flex items-center gap-2 text-sm">
-            <button
-              onClick={() => setNotesMode(v => !v)}
-              className={`px-3 py-1.5 rounded-full border transition ${
-                notesMode
-                  ? "bg-[#FFD700] text-black border-[#FFD700] font-bold"
-                  : "bg-white/10 text-white border-white/15 hover:bg-white/15"
-              }`}
-              title="Toggle Notes (N)"
-            >
-              ✏️ {notesMode ? "Notes: ON" : "Notes: OFF"}
-            </button>
-            <span className="px-3 py-1.5 rounded-full bg-white/10 text-white border border-white/15">
-              ⏱ {formatTime(elapsed)}
-            </span>
-            <span
-              className={`px-3 py-1.5 rounded-full border ${
-                serverValid
-                  ? "bg-emerald-600 text-white border-emerald-400"
-                  : "bg-rose-700 text-white border-rose-400"
-              }`}
-            >
-              {serverValid ? "Valid" : "Invalid"}
-            </span>
-          </div>
+          {/* Spacer to keep header layout balanced (controls moved to sidebar) */}
+          <div className="w-[160px]" />
         </div>
       </header>
 
@@ -230,17 +200,19 @@ export default function SudokuGame() {
         </div>
       </div>
 
-      {/* Main */}
+      {/* Main: board left, sidebar right */}
       <main className="max-w-6xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-[1fr,320px] gap-8 relative z-10">
-        {/* Board */}
+        {/* Board (left) */}
         <motion.section
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.25 }}
           className="flex items-center justify-center"
         >
-          <div className="rounded-3xl bg-gradient-to-br from-[#141414] to-[#0c0c0c] p-3 shadow-2xl border-2 ring-1 ring-white/10"
-               style={{ borderColor: GOLD }}>
+          <div
+            className="rounded-3xl bg-gradient-to-br from-[#141414] to-[#0c0c0c] p-3 shadow-2xl border-2 ring-1 ring-white/10"
+            style={{ borderColor: GOLD }}
+          >
             <div className="rounded-2xl bg-black/60 backdrop-blur-sm p-2 ring-1 ring-white/10">
               <div className="grid grid-cols-9 grid-rows-9 gap-[2px] bg-[#1b1b1b] rounded-xl p-1 shadow-inner">
                 {board.map((row, r) =>
@@ -279,10 +251,10 @@ export default function SudokuGame() {
                     }}
                     className={`h-10 rounded-xl font-semibold transition border ${
                       n === "C"
-                        ? "bg-white/10 text-white border-white/20 hover:bg-white/15"
-                        // DIGITS: gold numbers, dark button, gold outline
+                        ? "bg-black/50 text-white border-white/20 hover:bg-black/60"
                         : "bg-black/60 text-[#FFD700] border-[#FFD700] hover:bg-black/75 shadow-[0_0_20px_rgba(255,215,0,0.15)]"
                     }`}
+                    style={{ backgroundColor: "#000" }}
                   >
                     {n === "C" ? "Clear" : n}
                   </button>
@@ -292,16 +264,51 @@ export default function SudokuGame() {
           </div>
         </motion.section>
 
-        {/* Side Panel */}
+        {/* Sidebar (right) — sticky so user doesn’t scroll to access controls */}
         <motion.aside
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.05, duration: 0.25 }}
-          className="space-y-4"
+          className="space-y-4 self-start lg:sticky lg:top-24"
         >
+          {/* Quick Controls: Notes, Timer, Valid */}
+          <div
+            className="rounded-2xl bg-gradient-to-br from-[#141414] to-[#0c0c0c] p-3 shadow-xl border-2 flex items-center gap-2 flex-wrap"
+            style={{ borderColor: GOLD }}
+          >
+            <button
+              onClick={() => setNotesMode(v => !v)}
+              className={`px-3 py-1.5 rounded-full border transition ${
+                notesMode
+                  ? "bg-[#FFD700] text-black border-[#FFD700] font-bold"
+                  : "bg-black/50 text-white border-white/15 hover:bg-black/60"
+              }`}
+n
+              title="Toggle Notes (N)"
+            >
+              ✏️ {notesMode ? "Notes: ON" : "Notes: OFF"}
+            </button>
+
+            <span className="px-3 py-1.5 rounded-full bg-black/50 text-white border border-white/15">
+              ⏱ {formatTime(elapsed)}
+            </span>
+
+            <span
+              className={`px-3 py-1.5 rounded-full border ${
+                serverValid
+                  ? "bg-emerald-700 text-white border-emerald-400"
+                  : "bg-rose-800 text-white border-rose-400"
+              }`}
+            >
+              {serverValid ? "Valid" : "Invalid"}
+            </span>
+          </div>
+
           {/* Difficulty & New Puzzle */}
-          <div className="rounded-2xl bg-gradient-to-br from-[#141414] to-[#0c0c0c] p-4 shadow-xl border-2"
-               style={{ borderColor: GOLD }}>
+          <div
+            className="rounded-2xl bg-gradient-to-br from-[#141414] to-[#0c0c0c] p-4 shadow-xl border-2"
+            style={{ borderColor: GOLD }}
+          >
             <label className="block text-xs uppercase tracking-wider text-white/70 mb-2">Difficulty</label>
             <div className="flex gap-2 flex-wrap">
               {DIFFICULTIES.map((d, i) => (
@@ -310,53 +317,66 @@ export default function SudokuGame() {
                   onClick={() => setDifficultyIdx(i)}
                   className={`px-3 py-1.5 rounded-full text-sm transition border ${
                     i === difficultyIdx
-                      // CURRENT: white with gold outline
-                      ? "bg-white text-[#FFD700] border-[#FFD700] font-bold shadow"
+                      ? "bg-black text-[#FFD700] border-[#FFD700] font-bold shadow"
                       : "bg-black/50 text-white border-white/15 hover:bg-black/60"
                   }`}
+                  style={{ backgroundColor: "#000" }}
                 >
                   {d.label}
                 </button>
               ))}
             </div>
+
             <button
               onClick={() => loadPuzzle(DIFFICULTIES[difficultyIdx].holes)}
               disabled={loading}
-              // NEW PUZZLE: clearer — white button, bold black text, gold outline + glow
-              className="mt-3 w-full px-4 py-2 rounded-xl bg-white text-white font-extrabold border shadow
-                         hover:bg-white/90 disabled:opacity-60"
-              style={{
-                borderColor: GOLD,
-                boxShadow: "0 0 22px rgba(255, 215, 0, 0.25)"
-              }}
+              className="mt-3 w-full px-4 py-2 rounded-xl text-white font-semibold border border-white/15"
+              style={{ backgroundColor: "#000" }}
             >
               {loading ? "Loading…" : "New Puzzle"}
             </button>
           </div>
 
           {/* Actions */}
-          <div className="rounded-2xl bg-gradient-to-br from-[#141414] to-[#0c0c0c] border-2 p-4 shadow-xl space-y-2"
-               style={{ borderColor: GOLD }}>
-            <button onClick={validateOnServer} className="w-full px-4 py-2 rounded-xl bg-white/10 text-white font-semibold hover:bg-white/15 border border-white/15">
+          <div
+            className="rounded-2xl bg-gradient-to-br from-[#141414] to-[#0c0c0c] border-2 p-4 shadow-xl space-y-2"
+            style={{ borderColor: GOLD }}
+          >
+            <button
+              onClick={validateOnServer}
+              className="w-full px-4 py-2 rounded-xl text-white font-semibold border border-white/15"
+              style={{ backgroundColor: "#000" }}
+            >
               ✅ Validate
             </button>
-            <button onClick={solveFromServer} className="w-full px-4 py-2 rounded-xl bg-white/10 text-white font-semibold hover:bg-white/15 border border-white/15">
+            <button
+              onClick={solveFromServer}
+              className="w-full px-4 py-2 rounded-xl text-white font-semibold border border-white/15"
+              style={{ backgroundColor: "#000" }}
+            >
               🧠 Solve (Dev)
             </button>
-            <button onClick={clearNonFixed} className="w-full px-4 py-2 rounded-xl bg-white/10 text-white font-semibold hover:bg-white/15 border border-white/15">
+            <button
+              onClick={clearNonFixed}
+              className="w-full px-4 py-2 rounded-xl text-white font-semibold border border-white/15"
+              style={{ backgroundColor: "#000" }}
+            >
               🧼 Clear Non-Fixed
             </button>
           </div>
 
           {/* Status */}
-          <div className="rounded-2xl bg-black/40 p-4 border border-white/10 min-h-[64px]">
-            <div className="text-sm text-white/80">{status}</div>
-            {isCompleteLocal(board) && (
-              <div className="mt-2 font-semibold" style={{ color: GOLD }}>
-                Filled! Press Validate to confirm. 🎉
-              </div>
-            )}
-          </div>
+
+<div className="rounded-2xl bg-black/70 p-6 border-2 border-[#FFD700] min-h-[80px] flex flex-col items-center justify-center shadow-2xl transition-all duration-200">
+  <div className="text-lg font-bold text-[#FFD700] drop-shadow mb-1 text-center">
+    {status}
+  </div>
+  {isCompleteLocal(board) && (
+    <div className="mt-2 font-semibold text-emerald-400 text-base text-center">
+      Filled! Press Validate to confirm. 🎉
+    </div>
+  )}
+</div>
         </motion.aside>
       </main>
 
