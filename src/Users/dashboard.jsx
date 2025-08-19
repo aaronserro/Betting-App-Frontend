@@ -136,6 +136,7 @@ function Dashboard() {
         style={{ opacity: panelsOpacity, y: panelsY }}
         className="h-screen flex items-center justify-center relative z-10"
       >
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-6xl px-4">
           {/* Live game */}
           <GamePanel
@@ -143,6 +144,12 @@ function Dashboard() {
             imageUrl="https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Sudoku_distinction_of_cases.PNG/640px-Sudoku_distinction_of_cases.PNG"
             onClick={() => navigate('/games/sudoku')}
             disabled={false}
+          />
+            <GamePanel
+            title="Fantasy "
+            imageUrl="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/NFL_wordmark_logo_2008.svg/640px-NFL_wordmark_logo_2008.svg.png"
+            onClick={()=> navigate('games/Fantasy')}
+            disabled = {false}
           />
 
           {/* Coming Soon games (disabled overlays) */}

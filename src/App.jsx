@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom'
 import Dashboard from './Users/dashboard'
 import SudokuPage from './pages/SudokuPage'
+import FantasyPage from './pages/Fantasy/FantasyPage'
 import './App.css'
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
 
         {/* Games are public, no ProtectedRoute */}
         <Route path="/games/sudoku" element={<SudokuPage />} />
+        <Route path="/games/Fantasy" element={<FantasyPage/>} />
       </Routes>
     </div>
   )
