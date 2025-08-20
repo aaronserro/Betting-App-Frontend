@@ -148,7 +148,7 @@ function Dashboard() {
             <GamePanel
             title="Fantasy "
             imageUrl="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/NFL_wordmark_logo_2008.svg/640px-NFL_wordmark_logo_2008.svg.png"
-            onClick={()=> navigate('games/Fantasy')}
+            onClick={()=> navigate('/pages/Fantasy')}
             disabled = {false}
           />
 

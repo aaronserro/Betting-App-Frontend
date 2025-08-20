@@ -15,53 +15,51 @@ const TABS = [
 
 export default function FantasyPage() {
   const [active, setActive] = useState("draft");
+    const features = [
+    { title: "Draft Assistant", desc: "Upload projections & ADP to build tiers, compute VORP, and guide picks." },
+    { title: "Trade Evaluator", desc: "See ΔROS points, ΔWins, ΔPlayoff% and fairness from lineup impact." },
+    { title: "ROS Optimizer", desc: "Best starters each week, bye-aware and matchup-adjusted." },
+    { title: "Waivers / Start–Sit", desc: "Rank waivers by upgrade value; compare players for this week." },
+  ];
 
   return (
-    <div className="min-h-screen bg-black text-white px-4 sm:px-6 lg:px-10 py-8">
-      <header className="mb-8">
-        <h1 className="text-3xl sm:text-4xl font-extrabold">
-          Fantasy Football Suite
+        <div className="flex flex-col items-center text-center">
+      <div className="mb-8">
+        <h1 className="text-4xl sm:text-5xl font-extrabold drop-shadow">
+          Welcome to the <span className="text-[#FFD700]">Fantasy Suite</span>
         </h1>
-        <p className="text-gray-300 mt-2">
-          Draft smarter. Evaluate trades. Optimize weekly lineups. Win your league.
+        <p className="text-gray-200 mt-3 max-w-2xl mx-auto drop-shadow">
+          Draft smarter. Evaluate trades. Optimize lineups. Win your league.
         </p>
-      </header>
-
-      {/* Tabs */}
-      <div className="overflow-x-auto">
-        <div className="inline-flex rounded-2xl border-2 border-[#FFD700] bg-black">
-          {TABS.map((t) => {
-            const isActive = active === t.key;
-            return (
-              <button
-                key={t.key}
-                onClick={() => setActive(t.key)}
-                className={[
-                  "px-4 sm:px-6 py-3 text-sm sm:text-base font-semibold transition",
-                  isActive
-                    ? "text-black bg-[#FFD700]"
-                    : "text-white hover:bg-[#1a1a1a]"
-                ].join(" ")}
-              >
-                {t.label}
-              </button>
-            );
-          })}
-        </div>
       </div>
 
-      {/* Content */}
-      <motion.div
-        key={active}
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="mt-6"
+      <div className="w-full flex items-center justify-center mb-8">
+        <div className="h-px w-24 bg-[#FFD700]/60" />
+        <div className="mx-3 text-[#FFD700]">◆</div>
+        <div className="h-px w-24 bg-[#FFD700]/60" />
+      </div>
+
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 w-full">
+        {features.map((f) => (
+          <div
+            key={f.title}
+            className="rounded-2xl p-5 bg-black/45 backdrop-blur-md border border-[#FFD700]/40 hover:border-[#FFD700] transition will-change-transform hover:scale-[1.02]"
+          >
+            <h2 className="text-xl font-bold text-[#FFD700] mb-2">{f.title}</h2>
+            <p className="text-sm text-gray-200">{f.desc}</p>
+          </div>
+        ))}
+      </div>
+
+      <div
+        className="mt-10 w-full rounded-2xl border border-[#FFD700]/30 bg-gradient-to-r from-[#000000]/30 via-[#111111]/30 to-[#000000]/30 backdrop-blur-md p-4"
+        style={{ boxShadow: "0 0 40px rgba(255, 215, 0, 0.06) inset" }}
       >
-        {active === "draft" && <DraftAssistant />}
-        {active === "trades" && <TradeEvaluator />}
-        {active === "ros" && <RosOptimizer />}
-        {active === "waivers" && <WaiversStartSit />}
-      </motion.div>
+        <p className="text-sm text-gray-200">
+          Tip: load league settings in <span className="text-[#FFD700] font-semibold">ROS Optimizer</span> first to boost accuracy across the suite.
+        </p>
+      </div>
     </div>
+
   );
 }
