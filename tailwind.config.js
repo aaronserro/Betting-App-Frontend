@@ -33,4 +33,15 @@ export default {
   },
 
   plugins: [],
+
 };
+module.exports = {
+  theme: {
+    extend: {
+      colors: {
+        gold: "#FFD700",
+      },
+    },
+  },
+};
+
